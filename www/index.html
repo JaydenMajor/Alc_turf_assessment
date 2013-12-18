@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- #174215 -->
+<meta charset="utf-8">
+<title>ALC Turf - Quality Assessment</title>
+<meta name="description" content="ALC Turf - Quality Assessment" />
+<meta name="author" content="Jayden Major" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="favicon.ico" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<script type="text/javascript" src="js/cordova.js"></script>
+<script src="js/jquery.min.js"></script>
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" /> 
+<script src="bootstrap/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/style.css" />
+<script src="js/main.js"></script>
+<script>
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady(){
+	navigator.splashscreen.show();
+	window.settimeout(function(){navigator.splashscreen.hide();},3500);
+}
+</script>
+</head>
+<body onload="defultSelected()">
+<div class="container">
+<h1 class="text-center">ALC Turf -  Quality Assessment</h1>
+<div class="col-sm-12 line">&nbsp;</div>
+<br/>
+<form action="submit.html" method="post" role="form">
+<table class="table table-bordered">
+	<tr class="active">
+		<th>Marker</th>
+		<th>Customer</th>
+		<th>Cut Area</th>
+	</tr>
+	<tr>
+		<td><input class="form-control" type="text" name="maker1" id="maker1" /></td>
+		<td><input class="form-control" type="text" name="customer1" id="customer1" /></td>
+		<td><input class="form-control" type="text" name="cutArea1" id="cutArea1" /></td>
+	</tr>
+	<tr>
+		<td><input class="form-control" type="text" name="maker2" id="maker2" /></td>
+		<td><input class="form-control" type="text" name="customer2" id="customer2" /></td>
+		<td><input class="form-control" type="text" name="cutArea2" id="cutArea2" /></td>
+	</tr>
+	<tr>
+		<td><input class="form-control" type="text" name="maker3" id="maker3" /></td>
+		<td><input class="form-control" type="text" name="customer3" id="customer3" /></td>
+		<td><input class="form-control" type="text" name="cutArea3" id="cutArea3" /></td>
+	</tr>
+	<tr>
+		<td><input class="form-control" type="text" name="maker4" id="maker4" /></td>
+		<td><input class="form-control" type="text" name="customer4" id="customer4" /></td>
+		<td><input class="form-control" type="text" name="cutArea4" id="cutArea4" /></td>
+	</tr>
+</table>
+<br/>
+<table class="table table-bordered">
+	<tr class="active">
+		<th>Criteria</th>
+		<th>Sir Walter
+		<div class="btn-group pull-right" data-toggle="buttons">
+			<label class="btn btn-primary btn-sm">
+				<input type="radio" name="sirWalter" id="sirWalter1" value="on" onchange="sirWalterToggle()"> On
+			</label>
+			<label class="btn btn-primary btn-sm">
+				<input type="radio" name="sirWalter" id="sirWalter2" value="off" onchange="sirWalterToggle()"> Off
+			</label>
+		</div>
+		</th>
+		<th>Empire Zoysia
+		<div class="btn-group pull-right" data-toggle="buttons">
+			<label class="btn btn-primary btn-sm">
+				<input type="radio" name="empireZoysia" id="empireZoysia1" value="on" onchange="empireZoysiaToggle()"> On
+			</label>
+			<label class="btn btn-primary btn-sm">
+				<input type="radio" name="empireZoysia" id="empireZoysia2" value="off" onchange="empireZoysiaToggle()"> Off
+			</label>
+		</div>
+		</th>
+		<th>Oz Tuff
+		<div class="btn-group pull-right" data-toggle="buttons">
+			<label class="btn btn-primary btn-sm">
+				<input type="radio" name="ozTuff" id="ozTuff1" value="on" onchange="ozTuffToggle()"> On
+			</label>
+			<label class="btn btn-primary btn-sm">
+				<input type="radio" name="ozTuff" id="ozTuff2" value="off" onchange="ozTuffToggle()"> Off
+			</label>
+		</div>
+		</th>
+		<th>Winter Green
+		<div class="btn-group pull-right" data-toggle="buttons">
+			<label class="btn btn-primary btn-sm">
+				<input type="radio" name="winterGreen" id="winterGreen1" value="on" onchange="winterGreenToggle()"> On
+			</label>
+			<label class="btn btn-primary btn-sm">
+				<input type="radio" name="winterGreen" id="winterGreen2" value="off" onchange="winterGreenToggle()"> Off
+			</label>
+		</div>
+		</th>
+	</tr>
+	<tr>
+		<th class="active">Slab Weight</th>
+		<td>
+			 <div id="slabWeightV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabWeightV1-1Label" for="slabWeightV1-1"><input onchange="generateScore()" type="radio" id="slabWeightV1-1" name="slabWeightV1" value="ok"> Ok</label>
+				<label class="btn btn-success" id="slabWeightV1-2Label" for="slabWeightV1-2"><input onchange="generateScore()" type="radio" id="slabWeightV1-2" name="slabWeightV1" value="heavy" checked="checked"> Heavy</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabWeightV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabWeightV2-1Label" for="slabWeightV2-1"><input onchange="generateScore()" type="radio" id="slabWeightV2-1" name="slabWeightV2" value="ok"> Ok</label>
+				<label class="btn btn-success" id="slabWeightV2-2Label" for="slabWeightV2-2"><input onchange="generateScore()" type="radio" id="slabWeightV2-2" name="slabWeightV2" value="heavy" checked="checked"> Heavy</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabWeightV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabWeightV3-1Label" for="slabWeightV3-1"><input onchange="generateScore()" type="radio" id="slabWeightV3-1" name="slabWeightV3" value="ok"> Ok</label>
+				<label class="btn btn-success" id="slabWeightV3-2Label" for="slabWeightV3-2"><input onchange="generateScore()" type="radio" id="slabWeightV3-2" name="slabWeightV3" value="heavy" checked="checked"> Heavy</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabWeightV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabWeightV4-1Label" for="slabWeightV4-1"><input onchange="generateScore()" type="radio" id="slabWeightV4-1" name="slabWeightV4" value="ok"> Ok</label>
+				<label class="btn btn-success" id="slabWeightV4-2Label" for="slabWeightV4-2"><input onchange="generateScore()" type="radio" id="slabWeightV4-2" name="slabWeightV4" value="heavy" checked="checked"> Heavy</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Slab Thickness</th>
+		<td>
+			<div id="slabThicknessV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabThicknessV1-1Label" for="slabThicknessV1-1"><input onchange="generateScore()" type="radio" id="slabThicknessV1-1" name="slabThicknessV1" value="<2" checked="checked"> &lt;2</label>
+				<label class="btn btn-success" id="slabThicknessV1-2Label" for="slabThicknessV1-2"><input onchange="generateScore()" type="radio" id="slabThicknessV1-2" name="slabThicknessV1" value="2-4mm"> 2-4mm</label>
+				<label class="btn btn-success" id="slabThicknessV1-3Label" for="slabThicknessV1-3"><input onchange="generateScore()" type="radio" id="slabThicknessV1-3" name="slabThicknessV1" value="4mm"> 4mm</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabThicknessV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabThicknessV2-1Label" for="slabThicknessV2-1"><input onchange="generateScore()" type="radio" id="slabThicknessV2-1" name="slabThicknessV2" value="<2" checked="checked"> &lt;2</label>
+				<label class="btn btn-success" id="slabThicknessV2-2Label" for="slabThicknessV2-2"><input onchange="generateScore()" type="radio" id="slabThicknessV2-2" name="slabThicknessV2" value="2-4mm"> 2-4mm</label>
+				<label class="btn btn-success" id="slabThicknessV2-3Label" for="slabThicknessV2-3"><input onchange="generateScore()" type="radio" id="slabThicknessV2-3" name="slabThicknessV2" value="4mm"> 4mm</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabThicknessV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabThicknessV3-1Label" for="slabThicknessV3-1"><input onchange="generateScore()" type="radio" id="slabThicknessV3-1" name="slabThicknessV3" value="<2" checked="checked"> &lt;2</label>
+				<label class="btn btn-success" id="slabThicknessV3-2Label" for="slabThicknessV3-2"><input onchange="generateScore()" type="radio" id="slabThicknessV3-2" name="slabThicknessV3" value="2-4mm"> 2-4mm</label>
+				<label class="btn btn-success" id="slabThicknessV3-3Label" for="slabThicknessV3-3"><input onchange="generateScore()" type="radio" id="slabThicknessV3-3" name="slabThicknessV3" value="4mm"> 4mm</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabThicknessV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabThicknessV4-1Label" for="slabThicknessV4-1"><input onchange="generateScore()" type="radio" id="slabThicknessV4-1" name="slabThicknessV4" value="<2" checked="checked"> &lt;2</label>
+				<label class="btn btn-success" id="slabThicknessV4-2Label" for="slabThicknessV4-2"><input onchange="generateScore()" type="radio" id="slabThicknessV4-2" name="slabThicknessV4" value="2-4mm"> 2-4mm</label>
+				<label class="btn btn-success" id="slabThicknessV4-3Label" for="slabThicknessV4-3"><input onchange="generateScore()" type="radio" id="slabThicknessV4-3" name="slabThicknessV4" value="4mm"> 4mm</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Strength</th>
+		<td>
+			<div id="strengthV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="strengthV1-1Label" for="strengthV1-1"><input onchange="generateScore()" type="radio" id="strengthV1-1" name="strengthV1" checked="checked" checked="checked"> Weak</label>
+				<label class="btn btn-success" id="strengthV1-2Label" for="strengthV1-2"><input onchange="generateScore()" type="radio" id="strengthV1-2" name="strengthV1" value="moderate"> Moderate</label>
+				<label class="btn btn-success" id="strengthV1-3Label" for="strengthV1-3"><input onchange="generateScore()" type="radio" id="strengthV1-3" name="strengthV1" value="strong"> Strong</label>
+			</div>
+		</td>
+		<td>
+			<div id="strengthV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="strengthV2-1Label" for="strengthV2-1"><input onchange="generateScore()" type="radio" id="strengthV2-1" name="strengthV2" checked="checked" checked="checked"> Weak</label>
+				<label class="btn btn-success" id="strengthV2-2Label" for="strengthV2-2"><input onchange="generateScore()" type="radio" id="strengthV2-2" name="strengthV2" value="moderate"> Moderate</label>
+				<label class="btn btn-success" id="strengthV2-3Label" for="strengthV2-3"><input onchange="generateScore()" type="radio" id="strengthV2-3" name="strengthV2" value="strong"> Strong</label>
+			</div>
+		</td>
+		<td>
+			<div id="strengthV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="strengthV3-1Label" for="strengthV3-1"><input onchange="generateScore()" type="radio" id="strengthV3-1" name="strengthV3" checked="checked" checked="checked"> Weak</label>
+				<label class="btn btn-success" id="strengthV3-2Label" for="strengthV3-2"><input onchange="generateScore()" type="radio" id="strengthV3-2" name="strengthV3" value="moderate"> Moderate</label>
+				<label class="btn btn-success" id="strengthV3-3Label" for="strengthV3-3"><input onchange="generateScore()" type="radio" id="strengthV3-3" name="strengthV3" value="strong"> Strong</label>
+			</div>
+		</td>
+		<td>
+			<div id="strengthV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="strengthV4-1Label" for="strengthV4-1"><input onchange="generateScore()" type="radio" id="strengthV4-1" name="strengthV4" checked="checked" checked="checked"> Weak</label>
+				<label class="btn btn-success" id="strengthV4-2Label" for="strengthV4-2"><input onchange="generateScore()" type="radio" id="strengthV4-2" name="strengthV4" value="moderate"> Moderate</label>
+				<label class="btn btn-success" id="strengthV4-3Label" for="strengthV4-3"><input onchange="generateScore()" type="radio" id="strengthV4-3" name="strengthV4" value="strong"> Strong</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Presentation</th>
+		<td>
+			<div id="presentationV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="presentationV1-1Label" for="presentationV1-1"><input onchange="generateScore()" type="radio" id="presentationV1-1" name="presentationV1" value="good"> Good</label>
+				<label class="btn btn-success" id="presentationV1-2Label" for="presentationV1-2"><input onchange="generateScore()" type="radio" id="presentationV1-2" name="presentationV1" value="bad" checked="checked"> Bad</label>
+			</div>
+		</td>
+		<td>
+			<div id="presentationV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="presentationV2-1Label" for="presentationV2-1"><input onchange="generateScore()" type="radio" id="presentationV2-1" name="presentationV2" value="good"> Good</label>
+				<label class="btn btn-success" id="presentationV2-2Label" for="presentationV2-2"><input onchange="generateScore()" type="radio" id="presentationV2-2" name="presentationV2" value="bad" checked="checked"> Bad</label>
+			</div>
+		</td>
+		<td>
+			<div id="presentationV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="presentationV3-1Label" for="presentationV3-1"><input onchange="generateScore()" type="radio" id="presentationV3-1" name="presentationV3" value="good"> Good</label>
+				<label class="btn btn-success" id="presentationV3-2Label" for="presentationV3-2"><input onchange="generateScore()" type="radio" id="presentationV3-2" name="presentationV3" value="bad" checked="checked"> Bad</label>
+			</div>
+		</td>
+		<td>
+			<div id="presentationV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="presentationV4-1Label" for="presentationV4-1"><input onchange="generateScore()" type="radio" id="presentationV4-1" name="presentationV4" value="good"> Good</label>
+				<label class="btn btn-success" id="presentationV4-2Label" for="presentationV4-2"><input onchange="generateScore()" type="radio" id="presentationV4-2" name="presentationV4" value="bad" checked="checked"> Bad</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Slab Temperature</th>
+		<td>
+			<div id="slabTemperatureV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabTemperatureV1-1Label" for="slabTemperatureV1-1"><input onchange="generateScore()" type="radio" id="slabTemperatureV1-1" name="slabTemperatureV1" value="ok"> Ok</label>
+				<label class="btn btn-success" id="slabTemperatureV1-2Label" for="slabTemperatureV1-2"><input onchange="generateScore()" type="radio" id="slabTemperatureV1-2" name="slabTemperatureV1" value="notOk" checked="checked"> Not Ok</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabTemperatureV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabTemperatureV2-1Label" for="slabTemperatureV2-1"><input onchange="generateScore()" type="radio" id="slabTemperatureV2-1" name="slabTemperatureV2" value="ok"> Ok</label>
+				<label class="btn btn-success" id="slabTemperatureV2-2Label" for="slabTemperatureV2-2"><input onchange="generateScore()" type="radio" id="slabTemperatureV2-2" name="slabTemperatureV2" value="notOk" checked="checked"> Not Ok</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabTemperatureV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabTemperatureV3-1Label" for="slabTemperatureV3-1"><input onchange="generateScore()" type="radio" id="slabTemperatureV3-1" name="slabTemperatureV3" value="ok"> Ok</label>
+				<label class="btn btn-success" id="slabTemperatureV3-2Label" for="slabTemperatureV3-2"><input onchange="generateScore()" type="radio" id="slabTemperatureV3-2" name="slabTemperatureV3" value="notOk" checked="checked"> Not Ok</label>
+			</div>
+		</td>
+		<td>
+			<div id="slabTemperatureV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="slabTemperatureV4-1Label" for="slabTemperatureV4-1"><input onchange="generateScore()" type="radio" id="slabTemperatureV4-1" name="slabTemperatureV4" value="ok"> Ok</label>
+				<label class="btn btn-success" id="slabTemperatureV4-2Label" for="slabTemperatureV4-2"><input onchange="generateScore()" type="radio" id="slabTemperatureV4-2" name="slabTemperatureV4" value="notOk" checked="checked"> Not Ok</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Moisture</th>
+		<td>
+			<div id="moistureV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="moistureV1-1Label" for="moistureV1-1"><input onchange="generateScore()" type="radio" id="moistureV1-1" name="moistureV1" value="dry" checked="checked"> Dry</label>
+				<label class="btn btn-success" id="moistureV1-2Label" for="moistureV1-2"><input onchange="generateScore()" type="radio" id="moistureV1-2" name="moistureV1" value="good" > Good</label>
+				<label class="btn btn-success" id="moistureV1-3Label" for="moistureV1-3"><input onchange="generateScore()" type="radio" id="moistureV1-3" name="moistureV1" value="wet" > Wet</label>
+			</div>
+		</td>
+		<td>
+			<div id="moistureV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="moistureV2-1Label" for="moistureV2-1"><input onchange="generateScore()" type="radio" id="moistureV2-1" name="moistureV2" value="dry" checked="checked"> Dry</label>
+				<label class="btn btn-success" id="moistureV2-2Label" for="moistureV2-2"><input onchange="generateScore()" type="radio" id="moistureV2-2" name="moistureV2" value="good" > Good</label>
+				<label class="btn btn-success" id="moistureV2-3Label" for="moistureV2-3"><input onchange="generateScore()" type="radio" id="moistureV2-3" name="moistureV2" value="wet" > Wet</label>
+			</div>
+		</td>
+		<td>
+			<div id="moistureV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="moistureV3-1Label" for="moistureV3-1"><input onchange="generateScore()" type="radio" id="moistureV3-1" name="moistureV3" value="dry" checked="checked"> Dry</label>
+				<label class="btn btn-success" id="moistureV3-2Label" for="moistureV3-2"><input onchange="generateScore()" type="radio" id="moistureV3-2" name="moistureV3" value="good" > Good</label>
+				<label class="btn btn-success" id="moistureV3-3Label" ="moistureV3-3"><input onchange="generateScore()" type="radio" id="moistureV3-3" name="moistureV3" value="wet" > Wet</label>
+			</div>
+		</td>
+		<td>
+			<div id="moistureV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="moistureV4-1Label" for="moistureV4-1"><input onchange="generateScore()" type="radio" id="moistureV4-1" name="moistureV4" value="dry" checked="checked"> Dry</label>
+				<label class="btn btn-success" id="moistureV4-2Label" for="moistureV4-2"><input onchange="generateScore()" type="radio" id="moistureV4-2" name="moistureV4" value="good" > Good</label>
+				<label class="btn btn-success" id="moistureV4-3Label" for="moistureV4-3"><input onchange="generateScore()" type="radio" id="moistureV4-3" name="moistureV4" value="wet" > Wet</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Colour</th>
+		<td>
+			<div id="colourV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="colourV1-1Label" for="colourV1-1"><input onchange="generateScore()" type="radio" id="colourV1-1" name="colourV1" value="poor" checked="checked"> Poor</label>
+				<label class="btn btn-success" id="colourV1-2Label" for="colourV1-2"><input onchange="generateScore()" type="radio" id="colourV1-2" name="colourV1" value="good" > Good</label>
+				<label class="btn btn-success" id="colourV1-3Label" for="colourV1-3"><input onchange="generateScore()" type="radio" id="colourV1-3" name="colourV1" value="excellent" > Excellent</label>
+			</div>
+		</td>
+		<td>
+			<div id="colourV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="colourV2-1Label" for="colourV2-1"><input onchange="generateScore()" type="radio" id="colourV2-1" name="colourV2" value="poor" checked="checked"> Poor</label>
+				<label class="btn btn-success" id="colourV2-2Label" for="colourV2-2"><input onchange="generateScore()" type="radio" id="colourV2-2" name="colourV2" value="good" > Good</label>
+				<label class="btn btn-success" id="colourV2-3Label" for="colourV2-3"><input onchange="generateScore()" type="radio" id="colourV2-3" name="colourV2" value="excellent" > Excellent</label>
+			</div>
+		</td>
+		<td>
+			<div id="colourV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="colourV3-1Label" for="colourV3-1"><input onchange="generateScore()" type="radio" id="colourV3-1" name="colourV3" value="poor" checked="checked"> Poor</label>
+				<label class="btn btn-success" id="colourV3-2Label" for="colourV3-2"><input onchange="generateScore()" type="radio" id="colourV3-2" name="colourV3" value="good" > Good</label>
+				<label class="btn btn-success" id="colourV3-3Label" for="colourV3-3"><input onchange="generateScore()" type="radio" id="colourV3-3" name="colourV3" value="excellent" > Excellent</label>
+			</div>
+		</td>
+		<td>
+			<div id="colourV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="colourV4-1Label" for="colourV4-1"><input onchange="generateScore()" type="radio" id="colourV4-1" name="colourV4" value="poor" checked="checked"> Poor</label>
+				<label class="btn btn-success" id="colourV4-2Label" for="colourV4-2"><input onchange="generateScore()" type="radio" id="colourV4-2" name="colourV4" value="good" > Good</label>
+				<label class="btn btn-success" id="colourV4-3Label" for="colourV4-3"><input onchange="generateScore()" type="radio" id="colourV4-3" name="colourV4" value="excellent" > Excellent</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Mow Height</th>
+		<td>
+			<div id="mowHeightV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="mowHeightV1-1Label" for="mowHeightV1-1"><input onchange="generateScore()" type="radio" id="mowHeightV1-1" name="mowHeightV1" value="tooLong" checked="checked"> Too Long</label>
+				<label class="btn btn-success" id="mowHeightV1-2Label" for="mowHeightV1-2"><input onchange="generateScore()" type="radio" id="mowHeightV1-2" name="mowHeightV1" value="ok" > Ok</label>
+				<label class="btn btn-success" id="mowHeightV1-3Label" for="mowHeightV1-3"><input onchange="generateScore()" type="radio" id="mowHeightV1-3" name="mowHeightV1"> Scalpeld</label>
+			</div>
+		</td>
+		<td>
+			<div id="mowHeightV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="mowHeightV2-1Label" for="mowHeightV2-1"><input onchange="generateScore()" type="radio" id="mowHeightV2-1" name="mowHeightV2" value="tooLong" checked="checked"> Too Long</label>
+				<label class="btn btn-success" id="mowHeightV2-2Label" for="mowHeightV2-2"><input onchange="generateScore()" type="radio" id="mowHeightV2-2" name="mowHeightV2" value="ok" > Ok</label>
+				<label class="btn btn-success" id="mowHeightV2-3Label" for="mowHeightV2-3"><input onchange="generateScore()" type="radio" id="mowHeightV2-3" name="mowHeightV2" value="scalpeld" > Scalpeld</label>
+			</div>
+		</td>
+		<td>
+			<div id="mowHeightV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="mowHeightV3-1Label" for="mowHeightV3-1"><input onchange="generateScore()" type="radio" id="mowHeightV3-1" name="mowHeightV3" value="tooLong" checked="checked"> Too Long</label>
+				<label class="btn btn-success" id="mowHeightV3-2Label" for="mowHeightV3-2"><input onchange="generateScore()" type="radio" id="mowHeightV3-2" name="mowHeightV3" value="ok" > Ok</label>
+				<label class="btn btn-success" id="mowHeightV3-3Label" for="mowHeightV3-3"><input onchange="generateScore()" type="radio" id="mowHeightV3-3" name="mowHeightV3" value="scalpeld" > Scalpeld</label>
+			</div>
+		</td>
+		<td>
+			<div id="mowHeightV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="mowHeightV4-1Label" for="mowHeightV4-1"><input onchange="generateScore()" type="radio" id="mowHeightV4-1" name="mowHeightV4" value="tooLong" checked="checked"> Too Long</label>
+				<label class="btn btn-success" id="mowHeightV4-2Label" for="mowHeightV4-2"><input onchange="generateScore()" type="radio" id="mowHeightV4-2" name="mowHeightV4" value="ok" > Ok</label>
+				<label class="btn btn-success" id="mowHeightV4-3Label" for="mowHeightV4-3"><input onchange="generateScore()" type="radio" id="mowHeightV4-3" name="mowHeightV4" value="scalpeld" > Scalpeld</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Weeds</th>
+		<td>
+			<div id="weedsV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="weedsV1-1Label" for="weedsV1-1"><input onchange="generateScore()" type="radio" id="weedsV1-1" name="weedsV1" value="nil"> Nil</label>
+				<label class="btn btn-success" id="weedsV1-2Label" for="weedsV1-2"><input onchange="generateScore()" type="radio" id="weedsV1-2" name="weedsV1" value="present" checked="checked"> Present</label>
+			</div>
+		</td>
+		<td>
+			<div id="weedsV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="weedsV2-1Label" for="weedsV2-1"><input onchange="generateScore()" type="radio" id="weedsV2-1" name="weedsV2" value="nil"> Nil</label>
+				<label class="btn btn-success" id="weedsV2-2Label" for="weedsV2-2"><input onchange="generateScore()" type="radio" id="weedsV2-2" name="weedsV2" value="present" checked="checked"> Present</label>
+			</div>
+		</td>
+		<td>
+			<div id="weedsV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="weedsV3-1Label" for="weedsV3-1"><input onchange="generateScore()" type="radio" id="weedsV3-1" name="weedsV3" value="nil"> Nil</label>
+				<label class="btn btn-success" id="weedsV3-2Label" for="weedsV3-2"><input onchange="generateScore()" type="radio" id="weedsV3-2" name="weedsV3" value="present" checked="checked"> Present</label>
+			</div>
+		</td>
+		<td>
+			<div id="weedsV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="weedsV4-1Label" for="weedsV4-1"><input onchange="generateScore()" type="radio" id="weedsV4-1" name="weedsV4" value="nil" > Nil</label>
+				<label class="btn btn-success" id="weedsV4-2Label" for="weedsV4-2"><input onchange="generateScore()" type="radio" id="weedsV4-2" name="weedsV4" value="present" checked="checked"> Present</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Pests</th>
+		<td>
+			<div id="pestsV1" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="pestsV1-1Label" for="pestsV1-1"><input onchange="generateScore()" type="radio" id="pestsV1-1" name="pestsV1" value="absence"> Absence</label>
+				<label class="btn btn-success" id="pestsV1-2Label" for="pestsV1-2"><input onchange="generateScore()" type="radio" id="pestsV1-2" name="pestsV1" value="presence" checked="checked"> Presence</label>
+			</div>
+		</td>
+		<td>
+			<div id="pestsV2" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="pestsV2-1Label" for="pestsV2-1"><input onchange="generateScore()" type="radio" id="pestsV2-1" name="pestsV2" value="absence" > Absence</label>
+				<label class="btn btn-success" id="pestsV2-2Label" for="pestsV2-2"><input onchange="generateScore()" type="radio" id="pestsV2-2" name="pestsV2" value="presence" checked="checked"> Presence</label>
+			</div>
+		</td>
+		<td>
+			<div id="pestsV3" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="pestsV3-1Label" for="pestsV3-1"><input onchange="generateScore()" type="radio" id="pestsV3-1" name="pestsV3" value="absence" > Absence</label>
+				<label class="btn btn-success" id="pestsV3-2Label" for="pestsV3-2"><input onchange="generateScore()" type="radio" id="pestsV3-2" name="pestsV3" value="presence" checked="checked"> Presence</label>
+			</div>
+		</td>
+		<td>
+			<div id="pestsV4" class="btn-group" data-toggle="buttons">
+				<label class="btn btn-success" id="pestsV4-1Label" for="pestsV4-1"><input onchange="generateScore()" type="radio" id="pestsV4-1" name="pestsV4" value="absence" > Absence</label>
+				<label class="btn btn-success" id="pestsV4-2Label" for="pestsV4-2"><input onchange="generateScore()" type="radio" id="pestsV4-2" name="pestsV4" value="presence" checked="checked"> Presence</label>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<th class="active">Total Score <!-- <span class="badge pull-right" href="table.html" data-toggle="modal" data-target="#scoreingSystem">?</span> --></th>
+		<td id="v1Score">0</td>
+		<td id="v2Score">0</td>
+		<td id="v3Score">0</td>
+		<td id="v4Score">0</td>
+	</tr>
+</table>
+	<div class="form-group">
+		<label for="date" class="col-sm-1 control-label">Date</label>
+		<div class="col-sm-5">
+			<input type="email" disabled class="form-control" id="date" placeholder="Date">
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="time" class="col-sm-1 control-label">Time</label>
+		<div class="col-sm-5">
+			<input type="email" disabled class="form-control" id="time" placeholder="Time">
+		</div>
+	</div>
+	<div class="form-group">&nbsp;</div>
+	<div class="form-group">
+		<label for="harvestDriver" class="col-sm-3 control-label">Harvest Driver</label>
+		<div class="col-sm-9">
+			<input type="email" class="form-control" id="harvestDriver" placeholder="John Appleseed">
+		</div>
+	</div>
+	<div class="form-group">&nbsp;</div>
+	<div class="form-group">
+		<label for="ferryDriver" class="col-sm-3 control-label">Ferry Driver</label>
+		<div class="col-sm-9">
+			<input type="email" class="form-control" id="ferryDriver" placeholder="Ferry Driver">
+		</div>
+	</div>
+	<div class="form-group">&nbsp;</div>
+	<div class="form-group">
+		<label for="assessedBy" class="col-sm-3 control-label">Assessed By</label>
+		<div class="col-sm-9">
+			<input type="email" class="form-control" id="assessedBy" placeholder="John Appleseed">
+		</div>
+	</div>
+	<div class="form-group">&nbsp;</div>
+	<div class="form-group">
+		<button class="btn btn-lg btn-primary" type="submit">Submit Assessment</button>
+	</div>
+</form>
+</div>
+</body>
+</html>
