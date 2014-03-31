@@ -3,3 +3,15 @@
 .line{
 	border-bottom:4px solid #47a447;
 }
+.container{
+	width:100%;
+}
+.btn-group{
+	width:100% !important;
+}
+.2buttonoption{
+	width:50% !important;
+}
+.3buttonoption{
+	
+}
