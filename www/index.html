@@ -16,18 +16,37 @@
 <script src="js/main.js"></script>
 <script>
 document.addEventListener("deviceready", onDeviceReady, false);
+var phonegapActive = false;
+var phonegapOnline = true;
+var peopleError = false;
 function onDeviceReady(){
 	navigator.splashscreen.show();
 	window.settimeout(function(){navigator.splashscreen.hide();},3500);
+	phonegapActive = true;
+	document.addEventListener("offline", onOffline, false);
+	document.addEventListener("online", onOnline, false);
+	window.settimeout(function(){checkConnection();},300);
+}
+function onOffline(){
+	phonegapOnline = false;
+}
+function onOnline(){
+	phonegapOnline = true;
+}
+function checkConnection(){
+	if(phonegapOnline == false){
+		alert('You are offline. You need a least a cell');
+		return false;
+	}
+	return true;
 }
 </script>
 </head><body onload="defultSelected()">
 <div class="container">
 <h1 class="text-center">ALC Turf -  Quality Assessment</h1>
-<a style="margin-top:-40px;" href="http://59.167.219.113/jayden/alc_form/statistics.php" class="btn btn-info pull-right">Statistics</a>
 <div class="col-sm-12 line">&nbsp;</div>
 <br/>
-<form action="http://59.167.219.113/jayden/alc_form/submit.php" method="post" role="form">
+<form id="form" action="http://59.167.219.113/jayden/alc_form/submit.php" method="post" role="form">
 <table class="table table-bordered">
 	<tr class="active">
 		<th>Criteria</th>
@@ -371,15 +390,9 @@ function onDeviceReady(){
 	</tr>
 </table>
 	<div class="form-group">
-		<label for="date" class="col-sm-1 control-label">Date</label>
-		<div class="col-sm-5">
+		<label for="date" class="col-sm-3 control-label">Date</label>
+		<div class="col-sm-9">
 			<input type="text" disabled class="form-control" id="date" placeholder="Date">
-		</div>
-	</div>
-	<div class="form-group">
-		<label for="time" class="col-sm-1 control-label">Time</label>
-		<div class="col-sm-5">
-			<input type="text" disabled class="form-control" id="time" placeholder="Time">
 		</div>
 	</div>
 	<div class="form-group">&nbsp;</div>
@@ -405,9 +418,132 @@ function onDeviceReady(){
 	</div>
 	<div class="form-group">&nbsp;</div>
 	<div class="form-group">
-		<button class="btn btn-lg btn-primary" type="submit">Submit Assessment</button>
+		<button class="btn btn-lg btn-primary" type="button" onclick="submitForm()">Submit Assessment</button>
 	</div>
 </form>
+<div id="modalResponce" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="modalResponceTitle">Loading</h4>
+      </div>
+      <div class="modal-body" id="modalResponceBody">
+        <p>Sending your report to the server...<br/>Please Wait while this takes place.</p>
+      </div>
+      <div class="modal-footer" id="modalResponceFooter">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="modalPeopleErrpr" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Error</h4>
+      </div>
+      <div class="modal-body">
+        <p><b>Some fields are blank...</b></p>
+		<p>This is fine. Just checking if this was your intention?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">No Close</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="peopleError()">Yes this is fine</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function peopleError(){
+	peopleError = true;
+	submitForm();
+}
+function submitForm(){
+	var urlPrams = ''; 
+	if(getById('sirWalter2').checked){urlPrams = urlPrams + 'sirWalter=off&';}else{urlPrams = urlPrams + 'sirWalter=on&';}
+	if(getById('empireZoysia2').checked){urlPrams = urlPrams + 'empireZoysia=off&';}else{urlPrams = urlPrams + 'empireZoysia=on&';}
+	if(getById('ozTuff2').checked){urlPrams = urlPrams + 'ozTuff=off&';}else{urlPrams = urlPrams + 'ozTuff=on&';}
+	if(getById('winterGreen2').checked){urlPrams = urlPrams + 'winterGreen=off&';}else{urlPrams = urlPrams + 'winterGreen=on&';}
+	
+		if(getById('slabWeightV1-1').checked){urlPrams = urlPrams + '&slabWeightV1=1';}else{urlPrams = urlPrams + '&slabWeightV1=2';}
+		if(getById('slabThicknessV1-1').checked){urlPrams = urlPrams + '&slabThicknessV1=1';}else if(getById('slabThicknessV1-2').checked){urlPrams = urlPrams + '&slabThicknessV1=2';}else{urlPrams = urlPrams + '&slabThicknessV1=3';}
+		if(getById('strengthV1-1').checked){urlPrams = urlPrams + '&strengthV1=1';}else if(getById('strengthV1-2').checked){urlPrams = urlPrams + '&strengthV1=2';}else{urlPrams = urlPrams + '&strengthV1=3';}
+		if(getById('presentationV1-1').checked){urlPrams = urlPrams + '&presentationV1=1';}else{urlPrams = urlPrams + '&presentationV1=2';}
+		if(getById('slabTemperatureV1-1').checked){urlPrams = urlPrams + '&slabTemperatureV1=1';}else{urlPrams = urlPrams + '&slabTemperatureV1=2';}
+		if(getById('moistureV1-1').checked){urlPrams = urlPrams + '&moistureV1=1';}else if(getById('moistureV1-2').checked){urlPrams = urlPrams + '&moistureV1=2';}else{urlPrams = urlPrams + '&moistureV1=3';}
+		if(getById('colourV1-1').checked){urlPrams = urlPrams + '&colourV1=1';}else if(getById('colourV1-2').checked){urlPrams = urlPrams + '&colourV1=2';}else{urlPrams = urlPrams + '&colourV1=3';}
+		if(getById('mowHeightV1-1').checked){urlPrams = urlPrams + '&mowHeightV1=1';}else if(getById('mowHeightV1-2').checked){urlPrams = urlPrams + '&mowHeightV1=2';}else{urlPrams = urlPrams + '&mowHeightV1=3';}
+		if(getById('weedsV1-1').checked){urlPrams = urlPrams + '&weedsV1=1';}else{urlPrams = urlPrams + '&weedsV1=2';}
+		if(getById('pestsV1-1').checked){urlPrams = urlPrams + '&pestsV1=1';}else{urlPrams = urlPrams + '&pestsV1=2';}
+
+		if(getById('slabWeightV2-1').checked){urlPrams = urlPrams + '&slabWeightV2=1';}else{urlPrams = urlPrams + '&slabWeightV2=2';}
+		if(getById('slabThicknessV2-1').checked){urlPrams = urlPrams + '&slabThicknessV2=1';}else if(getById('slabThicknessV2-2').checked){urlPrams = urlPrams + '&slabThicknessV2=2';}else{urlPrams = urlPrams + '&slabThicknessV2=3';}
+		if(getById('strengthV2-1').checked){urlPrams = urlPrams + '&strengthV2=1';}else if(getById('strengthV2-2').checked){urlPrams = urlPrams + '&strengthV2=2';}else{urlPrams = urlPrams + '&strengthV2=3';}
+		if(getById('presentationV2-1').checked){urlPrams = urlPrams + '&presentationV2=1';}else{urlPrams = urlPrams + '&presentationV2=2';}
+		if(getById('slabTemperatureV2-1').checked){urlPrams = urlPrams + '&slabTemperatureV2=1';}else{urlPrams = urlPrams + '&slabTemperatureV2=2';}
+		if(getById('moistureV2-1').checked){urlPrams = urlPrams + '&moistureV2=1';}else if(getById('moistureV2-2').checked){urlPrams = urlPrams + '&moistureV2=2';}else{urlPrams = urlPrams + '&moistureV2=3';}
+		if(getById('colourV2-1').checked){urlPrams = urlPrams + '&colourV2=1';}else if(getById('colourV2-2').checked){urlPrams = urlPrams + '&colourV2=2';}else{urlPrams = urlPrams + '&colourV2=3';}
+		if(getById('mowHeightV2-1').checked){urlPrams = urlPrams + '&mowHeightV2=1';}else if(getById('mowHeightV2-2').checked){urlPrams = urlPrams + '&mowHeightV2=2';}else{urlPrams = urlPrams + '&mowHeightV2=3';}
+		if(getById('weedsV2-1').checked){urlPrams = urlPrams + '&weedsV2=1';}else{urlPrams = urlPrams + '&weedsV2=2';}
+		if(getById('pestsV2-1').checked){urlPrams = urlPrams + '&pestsV2=1';}else{urlPrams = urlPrams + '&pestsV2=2';}
+
+		if(getById('slabWeightV3-1').checked){urlPrams = urlPrams + '&slabWeightV3=1';}else{urlPrams = urlPrams + '&slabWeightV3=2';}
+		if(getById('slabThicknessV3-1').checked){urlPrams = urlPrams + '&slabThicknessV3=1';}else if(getById('slabThicknessV3-2').checked){urlPrams = urlPrams + '&slabThicknessV3=2';}else{urlPrams = urlPrams + '&slabThicknessV3=3';}
+		if(getById('strengthV3-1').checked){urlPrams = urlPrams + '&strengthV3=1';}else if(getById('strengthV3-2').checked){urlPrams = urlPrams + '&strengthV3=2';}else{urlPrams = urlPrams + '&strengthV3=3';}
+		if(getById('presentationV3-1').checked){urlPrams = urlPrams + '&presentationV3=1';}else{urlPrams = urlPrams + '&presentationV3=2';}
+		if(getById('slabTemperatureV3-1').checked){urlPrams = urlPrams + '&slabTemperatureV3=1';}else{urlPrams = urlPrams + '&slabTemperatureV3=2';}
+		if(getById('moistureV3-1').checked){urlPrams = urlPrams + '&moistureV3=1';}else if(getById('moistureV3-2').checked){urlPrams = urlPrams + '&moistureV3=2';}else{urlPrams = urlPrams + '&moistureV3=3';}
+		if(getById('colourV3-1').checked){urlPrams = urlPrams + '&colourV3=1';}else if(getById('colourV3-2').checked){urlPrams = urlPrams + '&colourV3=2';}else{urlPrams = urlPrams + '&colourV3=3';}
+		if(getById('mowHeightV3-1').checked){urlPrams = urlPrams + '&mowHeightV3=1';}else if(getById('mowHeightV3-2').checked){urlPrams = urlPrams + '&mowHeightV3=2';}else{urlPrams = urlPrams + '&mowHeightV3=3';}
+		if(getById('weedsV3-1').checked){urlPrams = urlPrams + '&weedsV3=1';}else{urlPrams = urlPrams + '&weedsV3=2';}
+		if(getById('pestsV3-1').checked){urlPrams = urlPrams + '&pestsV3=1';}else{urlPrams = urlPrams + '&pestsV3=2';}
+
+		if(getById('slabWeightV4-1').checked){urlPrams = urlPrams + '&slabWeightV4=1';}else{urlPrams = urlPrams + '&slabWeightV4=2';}
+		if(getById('slabThicknessV4-1').checked){urlPrams = urlPrams + '&slabThicknessV4=1';}else if(getById('slabThicknessV4-2').checked){urlPrams = urlPrams + '&slabThicknessV4=2';}else{urlPrams = urlPrams + '&slabThicknessV4=3';}
+		if(getById('strengthV4-1').checked){urlPrams = urlPrams + '&strengthV4=1';}else if(getById('strengthV4-2').checked){urlPrams = urlPrams + '&strengthV4=2';}else{urlPrams = urlPrams + '&strengthV4=3';}
+		if(getById('presentationV4-1').checked){urlPrams = urlPrams + '&presentationV4=1';}else{urlPrams = urlPrams + '&presentationV4=2';}
+		if(getById('slabTemperatureV4-1').checked){urlPrams = urlPrams + '&slabTemperatureV4=1';}else{urlPrams = urlPrams + '&slabTemperatureV4=2';}
+		if(getById('moistureV4-1').checked){urlPrams = urlPrams + '&moistureV4=1';}else if(getById('moistureV4-2').checked){urlPrams = urlPrams + '&moistureV4=2';}else{urlPrams = urlPrams + '&moistureV4=3';}
+		if(getById('colourV4-1').checked){urlPrams = urlPrams + '&colourV4=1';}else if(getById('colourV4-2').checked){urlPrams = urlPrams + '&colourV4=2';}else{urlPrams = urlPrams + '&colourV4=3';}
+		if(getById('mowHeightV4-1').checked){urlPrams = urlPrams + '&mowHeightV4=1';}else if(getById('mowHeightV4-2').checked){urlPrams = urlPrams + '&mowHeightV4=2';}else{urlPrams = urlPrams + '&mowHeightV4=3';}
+		if(getById('weedsV4-1').checked){urlPrams = urlPrams + '&weedsV4=1';}else{urlPrams = urlPrams + '&weedsV4=2';}
+		if(getById('pestsV4-1').checked){urlPrams = urlPrams + '&pestsV4=1';}else{urlPrams = urlPrams + '&pestsV4=2';}
+		urlPrams = urlPrams + "&harvestDriver=" + getById('harvestDriver').value;
+		urlPrams = urlPrams + "&ferryDriver=" + getById('ferryDriver').value;
+		urlPrams = urlPrams + "&assessedBy=" + getById('assessedBy').value;
+	if(checkConnection()){
+		if(peopleError == true){
+			var xmlhttp;
+			if (window.XMLHttpRequest){xmlhttp=new XMLHttpRequest();}
+			else{xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");}
+			xmlhttp.onreadystatechange=function(){
+				if (xmlhttp.readyState==4 && xmlhttp.status==200){
+					var json = xmlhttp.responseText,obj = JSON.parse(json);
+					getById('modalResponceTitle').innerHTML = obj.title;
+					getById('modalResponceBody').innerHTML = obj.content;
+					getById('modalResponceFooter').innerHTML = '<button type="button" class="btn btn-success" data-dismiss="modal">Close</button>';
+				}
+			}
+			$('#modalResponce').modal({backdrop: "static"});
+			$('#modalResponce').modal('show');
+			xmlhttp.open("GET","http://59.167.219.113/jayden/alc_form/submit.php"+'?'+urlPrams,true);
+			xmlhttp.send();
+		}
+		else{
+			if(peopleError == false && getById('harvestDriver').value == "" || getById('ferryDriver').value == "" || getById('assessedBy').value == ""){
+				$('#modalPeopleErrpr').modal('show');
+			}
+			return false;
+		}
+	}
+}
+/*
+{"slabWeight":2,"slabThickness":1,"strength":1,"presentation":2,"slabTemperature":2,"moisture":1,"colour":1,"mowHeight":1,"weeds":2,"pests":2,"score":21}
+*/
+</script>
 </div>
 </body>
 </html>

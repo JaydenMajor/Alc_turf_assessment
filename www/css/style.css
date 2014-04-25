@@ -1,5 +1,7 @@
 /* Style Css */
-
+body{
+	background-color:#fafafa;
+}
 .line{
 	border-bottom:4px solid #47a447;
 }
