@@ -28,6 +28,7 @@ function onDeviceReady(){
 	window.settimeout(function(){checkConnection();},300);
 }
 function checkConnection(){
+	return true;
 	if(ignoreNetworkCheck){return true;}
     networkState = navigator.connection.type;
 	if(networkState == 'none'){
