@@ -1,6 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
+<<<<<<< HEAD
 <widget id="au.com.alcturf.report" version="1.2" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Alc Turf</name>
+=======
+<widget id="au.com.alcturf.report" version="1.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>ALC QA</name>
+>>>>>>> origin/master
     <description>
     Australian Lawn Concepts has grown a proud reputation for providing high quality instant lawns and Landscaping Supplies to Brisbane, Gold Coast, Ipswich and Sunshine Coast over the last 15 years. During this time we have worked with residential home owners, landscapers, builders, and landscape architects as well as Local and State Government. We pride ourselves on providing quality turf accompanied with excellent service so you get the best results the first time!
     </description>
