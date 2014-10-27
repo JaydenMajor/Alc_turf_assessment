@@ -17,25 +17,26 @@
 <script>
 document.addEventListener("deviceready", onDeviceReady, false);
 var phonegapActive = false;
+var phonegapOnline = true;
 var peopleError = false;
-var networkState;
-var ignoreNetworkCheck = false;
 function onDeviceReady(){
 	navigator.splashscreen.show();
 	window.settimeout(function(){navigator.splashscreen.hide();},3500);
 	phonegapActive = true;
-	networkState = navigator.connection.type;
+	document.addEventListener("offline", onOffline, false);
+	document.addEventListener("online", onOnline, false);
 	window.settimeout(function(){checkConnection();},300);
 }
+function onOffline(){
+	phonegapOnline = false;
+}
+function onOnline(){
+	phonegapOnline = true;
+}
 function checkConnection(){
-	if(ignoreNetworkCheck){return true;}
-    networkState = navigator.connection.type;
-	if(networkState == 'none'){
-		$('#nonetwork').modal('show');
-		return false;
-	}
-	else if(networkState == 'unkowen'){
-		$('#unkowennetwork').modal('show');
+	return true;
+	if(phonegapOnline == false){
+		alert('You are offline. You need a 3g or wifi for this app to work');
 		return false;
 	}
 	return true;
@@ -46,7 +47,7 @@ function checkConnection(){
 <h1 class="text-center">ALC Turf -  Quality Assessment</h1>
 <div class="col-sm-12 line">&nbsp;</div>
 <br/>
-<form id="form" action="http://jaydenmajor.com/alc/submit.php" method="post" role="form">
+<form id="form" action="http://qualityassessment.alcturf.com.au/submit.php" method="post" role="form">
 <table class="table table-bordered">
 	<tr class="active">
 		<th>Criteria</th>
@@ -437,6 +438,7 @@ function checkConnection(){
     </div>
   </div>
 </div>
+
 <div id="modalPeopleErrpr" class="modal fade">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -450,51 +452,12 @@ function checkConnection(){
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">No Close</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="peopleError()">Yes this is fine</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="nonetwork" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">No Network</h4>
-      </div>
-      <div class="modal-body">
-        <p><b>There is no internet Connection</b></p>
-		<p>An Internet connection is required to submit the report.<br/><small>You can fill out the details and then wait to be Online before submitting the report...</small></p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-<div id="unkowennetwork" class="modal fade">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Unkowen Network State</h4>
-      </div>
-      <div class="modal-body">
-        <p><b>Can't find out the state of the network</b></p>
-		<p>I am unsure if I can connect to the server to submit the report.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">No Internet Connection</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="ignoreNetwork()">Internet Connection</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal" onclick="submitForm()">Yes this is fine</button>
       </div>
     </div>
   </div>
 </div>
 <script>
-function ignoreNetwork(){
-	ignoreNetworkCheck = true;
-	submitForm();
-}
 function peopleError(){
 	peopleError = true;
 	submitForm();
@@ -567,7 +530,7 @@ function submitForm(){
 			}
 			$('#modalResponce').modal({backdrop: "static"});
 			$('#modalResponce').modal('show');
-			xmlhttp.open("GET","http://jaydenmajor.com/alc/submit.php"+'?'+urlPrams,true);
+			xmlhttp.open("GET","http://qualityassessment.alcturf.com.au/submit.php"+'?'+urlPrams,true);
 			xmlhttp.send();
 		}
 		else{
@@ -578,6 +541,9 @@ function submitForm(){
 		}
 	}
 }
+/*
+{"slabWeight":2,"slabThickness":1,"strength":1,"presentation":2,"slabTemperature":2,"moisture":1,"colour":1,"mowHeight":1,"weeds":2,"pests":2,"score":21}
+*/
 </script>
 </div>
 </body>
