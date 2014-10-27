@@ -35,11 +35,9 @@ function onOnline(){
 }
 function checkConnection(){
 	return true;
-<<<<<<< HEAD
-	if(phonegapOnline == false){
-		alert('You are offline. You need a 3g or wifi for this app to work');
-=======
-	if(ignoreNetworkCheck){return true;}
+if(phonegapOnline == false){
+	alert('You are offline. You need a 3g or wifi for this app to work');
+if(ignoreNetworkCheck){return true;}
     networkState = navigator.connection.type;
 	if(networkState == 'none'){
 		$('#nonetwork').modal('show');
@@ -47,7 +45,6 @@ function checkConnection(){
 	}
 	else if(networkState == 'unkowen'){
 		$('#unkowennetwork').modal('show');
->>>>>>> origin/master
 		return false;
 	}
 	return true;
